@@ -1,0 +1,46 @@
+4.19 Random Access File
+Java also allows you to access the contents of a file in random order i.e. data items 
+can be read and written in any order. This is especially useful in direct access applications 
+such as banking systems, airline reservation systems, Automatic Teller Machine (ATM) etc. 
+where the desired information must be located immediately. 
+Random access files (or direct access files) are analogous to arrays, where each 
+element is accessed directly by means of its index number. Java 
+provides java.io.RandomAccessFile class that enables you to perform random access file 
+input and output operations.
+When a data file is opened for random read and write access, an internal file pointer is 
+set at the beginning of the file. When you read or write data to the file, the file pointer moves 
+forward to the next data item. 
+For example, when reading an int value using readInt() , 4 bytes are read from the file 
+and the file pointer moves 4 bytes ahead from the previous file pointer position. Similarly, 
+when reading a double value using readDouble () , 8 byte are read from the file pointer and 
+the file pointer moves 8 bytes ahead from the previous file pointer position.
+import java.io.*; 
+class RFileEx 
+{ 
+ public static void main(String[] args) 
+ { 
+ try 
+ { 
+ 
+ RandomAccessFile file = new RandomAccessFile("f.txt","rw"); 
+ file.setLength(0); 
+ for(int i=0;i<50;i++) 
+ file.writeInt(i); 
+ System.out.println("Length of File After Writing Data is : "+file.length()); 
+ file.seek(0); 
+ System.out.println("First Number is : "+file.readInt()); 
+ file.seek(1*4); 
+ System.out.println("Second Number is : "+file.readInt()); 
+ file.writeInt(101); 
+ file.seek(file.length()); 
+ file.writeInt(50); 
+ System.out.println("Current Length of File is : "+file.length()); 
+ } 
+ catch(Exception e) { e.printStackTrace(); } 
+ } 
+}
+Output:
+Length of File After Writing Data is : 200
+First Number is : 0
+Second Number is : 1
+Current Length of File is : 204
